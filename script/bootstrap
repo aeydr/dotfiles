@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 #
 # bootstrap installs things.
-
-cd "$(dirname "$0")/.."
-DOTFILES_ROOT=$(pwd -P)
+DIR_SCRIPT="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+DIR_ROOT="$(dirname "$DIR_SCRIPT")"
+DIR_HOME="$DIR_ROOT/home"
 
 set -e
 
@@ -27,7 +27,17 @@ fail () {
   exit
 }
 
-# install_dotfiles
+install_dotfiles () {
+  info 'installing dotfiles'
+
+  for src in $(find -H "$DIR_HOME" -maxdepth 2 -name '*' -not -path '*.git*')
+  do
+    dst="$HOME/.$(basename "${src%.*}")"
+    ln -s "$src" "$dst"
+  done
+}
+
+install_dotfiles
 
 echo ''
 echo '  All installed!'
