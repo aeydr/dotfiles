@@ -6,7 +6,7 @@ alias gitsha='git rev-parse HEAD'
 
 current_dir="$(cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd)"
 dotfiles_source="${current_dir}/.dotfiles"
-
 while read -r file; do
-    source "${file}"
+    echo "${file}"
+    #source "${file}"
 done < <(find "${dotfiles_source}" -type f)
