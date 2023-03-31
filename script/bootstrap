@@ -30,13 +30,34 @@ fail () {
 install_dotfiles () {
   info 'installing dotfiles'
 
-  dst="$HOME/.$(basename "${src%.*}")"
-  ln -s "$DIR_HOME/functions" "$DIR_HOME/functions" || true
-  for src in $(find -H "$DIR_HOME/home" -maxdepth 2 -name '*' -type f -not -path '*.git*')
-  do
-    info "copying $src to $HOME"
-    cp "$src" "$dst"
-  done
+  mkdir -p $HOME/bin/
+
+  info "Setting up .bash_profile"
+  ln -s -f $DIR_HOME/.bash_profile $HOME/.bash_profile
+
+  info "Setting up .tmux.conf"
+  ln -s -f $DIR_HOME/.tmux.conf $HOME/.tmux.conf
+
+  info "Setting up .bash_aliases"
+  ln -s -f $DIR_HOME/.bash_aliases $HOME/.bash_aliases
+
+  info "Setting up a general base .gitconfig"
+  ln -s -f $DIR_HOME/.gitconfig $HOME/.gitconfig
+  
+  if [[ ! -e $HOME/.oh-my-zsh ]]; then
+      info "Setting up oh-my-zsh"
+      #TODO: Fix this 
+      curl -L http://install.ohmyz.sh | sh
+  fi
+
+  info "Setting up custom.zsh"
+  rm -f  $HOME/.oh-my-zsh/custom/custom.zsh
+  ln -s -f $DIR_HOME/.oh-my-zsh/custom/custom.zsh $HOME/.oh-my-zsh/custom/custom.zsh
+
+  if [ ! -n "`$SHELL -c 'echo $ZSH_VERSION'`" ]; then
+      info "Changing shell to zsh"
+      chsh -s /bin/zsh
+  fi
 }
 
 install_dotfiles
