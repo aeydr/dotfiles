@@ -41,8 +41,11 @@ install_dotfiles () {
   info "Setting up .bash_aliases"
   ln -s -f $DIR_HOME/.bash_aliases $HOME/.bash_aliases
 
-  info "Setting up a general base .gitconfig"
-  ln -s -f $DIR_HOME/.gitconfig $HOME/.gitconfig
+  if [[ ! -e $HOME/.gitdotfiles ]]; then
+    info "Appending to the (or setting up) .gitconfig"
+    cat $DIR_HOME/.gitconfig >> $HOME/.gitconfig
+    touch $HOME/.gitdotfiles
+  fi
   
   if [[ ! -e $HOME/.oh-my-zsh ]]; then
       info "Setting up oh-my-zsh"
