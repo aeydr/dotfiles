@@ -1,4 +1,4 @@
-ZSH_THEME="dieter"
+ZSH_THEME="crunch"
 
 plugins=(vi-mode)
 
