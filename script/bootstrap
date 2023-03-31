@@ -46,18 +46,12 @@ install_dotfiles () {
   
   if [[ ! -e $HOME/.oh-my-zsh ]]; then
       info "Setting up oh-my-zsh"
-      #TODO: Fix this 
-      curl -L http://install.ohmyz.sh | sh
+      sh $DIR_SCRIPT/install-zsh.sh
   fi
 
   info "Setting up custom.zsh"
   rm -f  $HOME/.oh-my-zsh/custom/custom.zsh
   ln -s -f $DIR_HOME/.oh-my-zsh/custom/custom.zsh $HOME/.oh-my-zsh/custom/custom.zsh
-
-  if [ ! -n "`$SHELL -c 'echo $ZSH_VERSION'`" ]; then
-      info "Changing shell to zsh"
-      chsh -s /bin/zsh
-  fi
 }
 
 install_dotfiles
