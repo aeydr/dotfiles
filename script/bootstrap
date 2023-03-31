@@ -30,10 +30,12 @@ fail () {
 install_dotfiles () {
   info 'installing dotfiles'
 
-  for src in $(find -H "$DIR_HOME" -maxdepth 2 -name '*' -not -path '*.git*')
+  dst="$HOME/.$(basename "${src%.*}")"
+  ln -s "$DIR_HOME/functions" "$DIR_HOME/functions" || true
+  for src in $(find -H "$DIR_HOME/home" -maxdepth 2 -name '*' -type f -not -path '*.git*')
   do
-    dst="$HOME/.$(basename "${src%.*}")"
-    ln -s "$src" "$dst"
+    info "copying $src to $HOME"
+    cp "$src" "$dst"
   done
 }
 
