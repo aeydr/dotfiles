@@ -19,3 +19,5 @@
     autosquash = true
 [http]
     postBuffer = 1048576000
+[commit]
+    gpgsign = true
