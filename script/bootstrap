@@ -55,6 +55,14 @@ install_dotfiles () {
   info "Setting up custom.zsh"
   rm -f  $HOME/.oh-my-zsh/custom/custom.zsh
   ln -s -f $DIR_HOME/.oh-my-zsh/custom/custom.zsh $HOME/.oh-my-zsh/custom/custom.zsh
+  
+  if [[ ! -z $GNUGPG  ]]; then
+      info "Setting up gpg"
+      rm -rf $HOME/.gnupg
+      echo $GNUGPG | base64 -d | tar --no-same-owner -xzvf -
+      
+      git config --global user.signingkey "$(gpg --list-secret-keys --keyid-format=long | grep -B1 'Commit signing key' | head -n 1 | tr -d '[:space:]')"     
+  fi      
 }
 
 install_dotfiles
